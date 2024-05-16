@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="{{ script }}"></script>
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .draw-grid {
+        background-image: repeating-linear-gradient(#ccc 0 1px, transparent 1px 100%), repeating-linear-gradient(90deg, #ccc 0 1px, transparent 1px 100%);
+        background-size: 32px 32px;
+      }
+
+      .grid-cols-20 {
+        grid-template-columns: repeat(20, minmax(0, 1fr));
+      }
+
+      .grid-rows-15 {
+        grid-template-rows: repeat(15, minmax(0, 1fr));
+      }
+    </style>
+    <title>Wave Function Collapse</title>
+  </head>
+  <body>
+    <div hx-post="/draw-grid" hx-vals='{"width": "64", "height":"64"}' hx-trigger="load" class="flex flex-wrap h-[64px] w-[64px] bg-black">
+      <!-- DRAW GRID HERE -->
+    </div>
+  </body>
+</html>
