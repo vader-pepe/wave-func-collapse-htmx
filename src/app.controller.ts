@@ -1,18 +1,7 @@
 import { Body, Controller, Get, Post, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 import { random } from './utils';
-
-interface Cell {
-  collapsed: boolean;
-  options: Array<0 | 1 | 2 | 3 | 4>;
-}
-
-type Grid = Array<Cell>
-
-interface Dimension {
-  height: number;
-  width: number;
-}
+import { CreateGridDto, Grid, Sprite } from './gridDto/createGridDto';
 
 @Controller()
 export class AppController {
@@ -25,22 +14,31 @@ export class AppController {
   }
 
   @Post('draw-grid')
-  drawGrids(@Body() dimension: Dimension): string {
+  drawGrids(@Body() dto: CreateGridDto): string {
     // STEPS
     // 1. PICK ANY CELL THAT HASN'T BEEN COLLAPSED
     //    WITH LEAST ENTROPY(OPTIONS)
     // 2. COLLAPSE IT
-    // 3. EVALUATE & UPDATE THE ENTROPY 
-    const GRID_HEIGHT = dimension.height;
-    const GRID_WIDTH = dimension.width;
-    const cell_size = 32;
-    const total_cell = GRID_WIDTH / cell_size * GRID_HEIGHT / cell_size;
+    // 3. EVALUATE & UPDATE THE ENTROPY (CHECK UP, RIGHT, DOWN, LEFT)
+    const GRID_HEIGHT = dto.height;
+    const GRID_WIDTH = dto.width;
+    const cell_size = dto.cell_size;
+    const ROW = dto.width / cell_size;
+    const COLUMN = dto.height / cell_size;
+    const total_cell = (GRID_WIDTH / cell_size) * (GRID_HEIGHT / cell_size);
     const BLANK = 0;
     const UP = 1;
     const RIGHT = 2;
     const DOWN = 3;
     const LEFT = 4;
-    const sprites = ['blank', 'up', 'right', 'down', 'left'];
+    const sprites: Array<Sprite> = [
+      Sprite.BLANK,
+      Sprite.UP,
+      Sprite.RIGHT,
+      Sprite.DOWN,
+      Sprite.LEFT
+    ];
+
     let grid: Grid = []
 
     for (let i = 0; i < total_cell; i++) {
@@ -50,20 +48,18 @@ export class AppController {
       })
     }
 
-    grid[0].options = [UP, DOWN];
-    grid[2].options = [UP, DOWN];
-
-    // PICK CELL WITH LEAST ENTROPY
-    // AKA LEAST OPTIONS
-    const gridCopy = [...grid];
+    // SORT GRID FROM THE LEAST ENTROPY
+    // BY COPYING THE ORIGINAL GRID
+    let gridCopy = [...grid];
+    gridCopy = gridCopy.filter((value) => !value.collapsed);
     gridCopy.sort((a, b) => {
       return a.options.length - b.options.length
     })
 
-    // idk what is this doing
+    // REMOVES ALL CELLS EXCEPT THE LEAST ONE
     const len = gridCopy[0].options.length;
     let stopIndex = 0;
-    for (let i = 0; i < gridCopy.length; i++) {
+    for (let i = 0; i < total_cell; i++) {
       if (gridCopy[i].options.length > len) {
         stopIndex = i;
         break;
@@ -71,7 +67,7 @@ export class AppController {
     }
     //
 
-    gridCopy.splice(stopIndex);
+    if (stopIndex > 0) gridCopy.splice(stopIndex);
     const cell = random(gridCopy)
     cell.collapsed = true;
     const pick = random(cell.options);
@@ -83,12 +79,25 @@ export class AppController {
         nextGrid[i] = grid[i]
       } else {
         // LOOK UP
+        if (i > 0 && i >= ROW) {
+          // ONLY LOOK UP WHEN SOMETHING ABOVE
+          // console.log("UP", i)
+        }
 
         // LOOK LEFT
+        if (i % ROW !== 0) {
+          // console.log("LEFT", i)
+        }
 
         // LOOK DOWN
+        if (i <= (total_cell - 1) - ROW) {
+          // console.log("DOWN", i)
+        }
 
         // LOOK RIGHT
+        if (i > 0 && (i + 1) % (ROW) !== 0) {
+          // console.log("RIGHT", i)
+        }
       }
     }
 
