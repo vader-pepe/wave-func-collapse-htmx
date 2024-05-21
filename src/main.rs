@@ -29,10 +29,10 @@ fn main() {
         for i in 0..tile_count {
             let mut x_in_tile = &x;
             let mut y_in_tile = &y;
-            x += 1;
+            x += 16;
             if x >= SCREEN_WIDTH {
                 x = 0;
-                y += 1;
+                y += 16;
             }
             // COLORS FOR EACH PIXEL FOR 1 TILE
             for j in 0..(TILE_SIZE * TILE_SIZE) {
