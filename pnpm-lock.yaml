@@ -29,6 +29,9 @@ importers:
       htmx.org:
         specifier: ^1.9.12
         version: 1.9.12
+      jquery:
+        specifier: ^3.7.1
+        version: 3.7.1
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -1921,6 +1924,9 @@ packages:
   jiti@1.21.0:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
+
+  jquery@3.7.1:
+    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -5331,6 +5337,8 @@ snapshots:
       - ts-node
 
   jiti@1.21.0: {}
+
+  jquery@3.7.1: {}
 
   js-tokens@4.0.0: {}
 

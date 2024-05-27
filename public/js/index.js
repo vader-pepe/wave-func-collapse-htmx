@@ -1,33 +1,46 @@
 // IMAGE INPUT LOGIC
-var loadFile = function(event) {
-  var image = document.getElementById('output');
-  image.src = URL.createObjectURL(event.target.files[0]);
+$("#file_upload").on("change", function(evt) {
+  const file = evt.target.files[0];
 
-  if (event.target.files[0]) {
-    document.querySelector(`input[type="submit"]`).classList.remove("hidden");
-
+  if (file) {
+    var image = $("#output");
+    image.attr("src", URL.createObjectURL(file));
+    $("input[type='submit']").removeClass("hidden");
     // TODO: fix text appended more if choosing another file
-    document.querySelector(`label[for="file_upload"]`).append(`(${event.target.files[0].name})`);
+    $("label[for='file_upload']").append(`(${file.name}) `)
   }
-};
+});
 
 // INPUT NUMBER RESTRICTOR
-Array.from(document.querySelectorAll('input[type="number"]')).map(element => {
-  element.addEventListener("keypress", function(evt) {
-    if (evt.which < 48 || evt.which > 57) {
-      evt.preventDefault();
-    }
-  });
+$("input[type='number']").on("keypress", function(evt) {
+  if (evt.which < 48 || evt.which > 57) {
+    evt.preventDefault();
+  }
+});
 
-  element.addEventListener("paste", function(e) {
-    e.preventDefault();
-    var pastedText = '';
-    if (window.clipboardData && window.clipboardData.getData) { // IE
-      pastedText = window.clipboardData.getData('Text');
-    } else if (e.clipboardData && e.clipboardData.getData) {
-      pastedText = e.clipboardData.getData('text/plain');
-    }
+// PASTE RESTRICTOR
+$("input[type='number']").on("paste", function(evt) {
+  evt.preventDefault();
+  var pastedText = '';
+  if (window.clipboardData && window.clipboardData.getData) { // IE
+    pastedText = window.clipboardData.getData('Text');
+  } else if (evt.clipboardData && evt.clipboardData.getData) {
+    pastedText = evt.clipboardData.getData('text/plain');
+  }
 
-    this.value = pastedText.replace(/\D/g, '');
-  })
+  this.value = pastedText.replace(/\D/g, '');
+});
+
+// FORM VALIDATION. DISABLE SUBMIT 
+// IF EMPTY
+$("form").on("change", function(evt) {
+  var tile_height = $("input[name='tile_height']");
+  var tile_width = $("input[name='tile_width']");
+
+  if (tile_height.val() != "" && tile_width.val() != "") {
+    $('input[type=submit]').removeAttr('disabled');
+  } else {
+    evt.preventDefault();
+    $('input[type=submit]').attr('disabled', 'disabled');
+  }
 });
