@@ -8,39 +8,42 @@
   <!-- <link href="./css/output.css" rel="stylesheet"> -->
   <!-- WARNING: only dev -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./js/index.js" defer></script>
   <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-  <link href="./css/font.css" rel="stylesheet">
+  <link href="./css/default.css" rel="stylesheet">
 </head>
 
-<body class="flex justify-center poppins-medium">
-  <main class="flex flex-col items-center border border-blue-300 w-[800px] h-[800px] rounded-md mt-10">
+<body class="flex justify-center">
+  <main class="flex flex-col items-center border-2 border-blue-300 w-[800px] h-[800px] rounded-md mt-10 px-3 py-2">
     <form hx-encoding='multipart/form-data' hx-post='/upload'>
       <div class="grid grid-rows-2 grid-cols-2 gap-2">
-        <label>Tile Height
-          <input type="number" name="tile_height" value="">
+        <label class="relative box-border m-1 border-2 border-blue-300 rounded-md">
+          <small class="absolute top-[25%] left-2 text-xs">
+            Tile Height
+          </small>
+          <input class="pl-24 pr-8 w-full py-2 outline-none rounded-md" type="number" name="tile_height" value="">
+          <small class="absolute top-[25%] right-2">PX</small>
         </label>
-        <label>
-          <text>Tile Width</text>
-          <input type="number" name="tile_width" value="">
+        <label class="relative box-border m-1 border-2 border-blue-300 rounded-md">
+          <small class="absolute top-[25%] left-2 text-xs">
+            Tile Width
+          </small>
+          <input class="pl-24 pr-8 w-full py-2 outline-none rounded-md" type="number" name="tile_width" value="">
+          <small class="absolute top-[25%] right-2">PX</small>
         </label>
-        <input type="file" name="file" accept="image/*" name="image" onchange="loadFile(event)">
+        <label for="file_upload" class="w-full col-span-2 flex items-center">
+          Pick Image
+        </label>
+        <input id="file_upload" class="hidden" type="file" name="file" accept="image/*" name="image"
+          onchange="loadFile(event)">
       </div>
-      <input type="submit" name="submit" value="Submit">
+      <div class="w-full flex justify-center my-5">
+        <input class="hidden px-3 py-2 rounded-md text-white bg-blue-400 hover:bg-blue-300" type="submit" name="submit"
+          value="Submit">
+      </div>
     </form>
     <img src="" class="w-full" id="output" alt="">
   </main>
 </body>
-
-<script>
-  var loadFile = function (event) {
-    var image = document.getElementById('output');
-    image.src = URL.createObjectURL(event.target.files[0]);
-  };
-</script>
 
 </html>
