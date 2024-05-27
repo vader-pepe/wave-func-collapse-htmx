@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WFC</title>
+  <!-- <link href="./css/output.css" rel="stylesheet"> -->
+  <!-- WARNING: only dev -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./js/index.js" defer></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <link href="./css/default.css" rel="stylesheet">
+</head>
+
+<body class="flex justify-center">
+  <main class="flex flex-col items-center border-2 border-blue-300 w-[800px] h-[800px] rounded-md mt-10 px-3 py-2">
+    <form hx-encoding='multipart/form-data' hx-post='/upload'>
+      <div class="grid grid-rows-2 grid-cols-2 gap-2">
+        <label class="relative box-border m-1 border-2 border-blue-300 rounded-md">
+          <small class="absolute top-[25%] left-2 text-xs">
+            Tile Height
+          </small>
+          <input class="pl-24 pr-8 w-full py-2 outline-none rounded-md" type="number" name="tile_height" value="">
+          <small class="absolute top-[25%] right-2">PX</small>
+        </label>
+        <label class="relative box-border m-1 border-2 border-blue-300 rounded-md">
+          <small class="absolute top-[25%] left-2 text-xs">
+            Tile Width
+          </small>
+          <input class="pl-24 pr-8 w-full py-2 outline-none rounded-md" type="number" name="tile_width" value="">
+          <small class="absolute top-[25%] right-2">PX</small>
+        </label>
+        <label for="file_upload" class="w-full col-span-2 flex items-center">
+          Pick Image
+        </label>
+        <input id="file_upload" class="hidden" type="file" name="file" accept="image/*" name="image"
+          onchange="loadFile(event)">
+      </div>
+      <div class="w-full flex justify-center my-5">
+        <input class="hidden px-3 py-2 rounded-md text-white bg-blue-400 hover:bg-blue-300" type="submit" name="submit"
+          value="Submit">
+      </div>
+    </form>
+    <img src="" class="w-full" id="output" alt="">
+  </main>
+</body>
+
+</html>
