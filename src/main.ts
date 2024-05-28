@@ -11,7 +11,7 @@ const node_modules = join(__dirname, '..', 'node_modules');
 const jquery = join(node_modules, 'jquery', 'dist');
 const htmx = join(node_modules, 'htmx.org', 'dist');
 
-console.log({ node_modules, jquery, htmx, publicDirectory });
+const root_views = join(__dirname, '..', 'views');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -19,7 +19,7 @@ async function bootstrap() {
   app.useStaticAssets(publicDirectory);
   app.useStaticAssets(jquery);
   app.useStaticAssets(htmx);
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setBaseViewsDir(root_views);
   app.setViewEngine('hbs');
 
   await app.listen(PORT, () => {
